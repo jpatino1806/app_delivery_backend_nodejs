@@ -5,6 +5,9 @@ const server = http.createServer(app);
 const logger = require('morgan');
 const cors = require('cors')
 
+/////// RUTAS ////////
+const users = require('./routes/usersRoutes');
+
 
 const port = process.env.PORT || 3000;
 
@@ -17,19 +20,14 @@ app.disable('x-powered-by');
 
 app.set('port', port);
 
+/////// LLANDO A LAS RUTAS  ////////////////
+users(app);
 
-server.listen(3000, '192.168.100.16' || 'localhost', function() {
+
+server.listen(port, '192.168.100.16' , function() {
     console.log('Servidor Nodejs, en el puerto ' + port + ' iniciada...');
 });
 
-
-app.get('/', (req, res) => {
-    res.send('Ruta raiz del backend');
-});
-
-app.get('/test', (req, res) => {
-    res.send('Ruta raiz del TEST');
-});
 
 
 //Error Handler
@@ -37,3 +35,8 @@ app.use( (err, req, res, next) => {
     console.log(err);
     res.status(err.status || 500).send(err.stack);
 });
+
+module.exports = {
+    app: app,
+    server: server
+}

@@ -4,7 +4,8 @@ const options = {
     query: (e) => {}
 }
 
-const pgp = require('pg-promise')(options);
+//const pgp = require('pg-promise')(options);
+const pgp = require('pg-promise')( );
 const types = pgp.pg.types;
 types.setTypeParser(1114, function(stringValue){
     return stringValue;
