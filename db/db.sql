@@ -1,4 +1,56 @@
-create table users(
+DROP TABLE IF EXISTS roles CASCADE;
+CREATE TABLE roles(
+	id bigserial primary key,
+	name varchar(180) not null unique,
+	image varchar(255) null,
+	route varchar(255) null,
+	created_at timestamp(0) not null,
+	updated_at timestamp(0) not null
+);
+
+INSERT INTO roles (
+	name,
+	route,
+	created_at,
+	updated_at
+)
+VALUES(
+	'CLIENTE',
+	'client/products/list',
+	'2025-09-28',
+	'2025-09-28'
+);
+
+INSERT INTO roles (
+	name,
+	route,
+	created_at,
+	updated_at
+)
+VALUES(
+	'RESTAURANTE',
+	'restaurant/orders/list',
+	'2025-09-28',
+	'2025-09-28'
+);
+
+INSERT INTO roles (
+	name,
+	route,
+	created_at,
+	updated_at
+)
+VALUES(
+	'REPARTIDOR',
+	'delivery/orders/list',
+	'2025-09-28',
+	'2025-09-28'
+);
+
+
+
+DROP TABLE IF EXISTS users CASCADE;
+CREATE TABLE users(
 	id bigserial primary key,
 	email varchar(255) not null unique,
 	name varchar(255) not null,
@@ -10,4 +62,16 @@ create table users(
 	sesion_token varchar(255) null,
 	created_at timestamp(0) not null,
 	updated_at timestamp(0) not null
+);
+
+
+DROP TABLE IF EXISTS user_has_roles CASCADE;
+CREATE TABLE user_has_roles(
+	id_user BIGSERIAL NOT NULL,
+	id_rol BIGSERIAL NOT NULL,
+	created_at timestamp(0) not null,
+	updated_at timestamp(0) not null,
+	FOREIGN KEY(id_user) REFERENCES users(id)ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY(id_rol) REFERENCES roles(id)ON UPDATE CASCADE ON DELETE CASCADE,
+	PRIMARY KEY(id_user, id_rol)
 );
