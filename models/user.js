@@ -26,10 +26,31 @@ User.findById = (id, callback) => {
 /////////////////////////////////////////////////////$RECYCLE.BIN
 User.findByEmail = (email) => {
     const sql = `
-        SELECT id, email, name, lastname, phone, image, password, sesion_token
-        FROM users
-        WHERE email = $1
-    `;
+        SELECT 
+            U.id, U.email, U.name, U.lastname, U.phone, U.image, U.password, U.sesion_token,
+            json_agg(
+                json_build_object(
+                    'id', R.id,
+                    'name', R.name,
+                    'image', R.image,
+                    'route', R.route
+                )
+            ) AS roles
+        FROM 
+            users AS U
+        INNER JOIN 
+            user_has_roles AS UHR
+        ON	
+            UHR.id_user = U.id
+        INNER JOIN 
+            roles AS R
+        ON	
+            R.id = UHR.id_rol	
+        WHERE 
+            U.email = $1
+        GROUP BY
+            U.id
+        `;
     return db.oneOrNone(sql, email);
 }
 
