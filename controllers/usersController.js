@@ -64,6 +64,28 @@ module.exports = {
         }
     },
 
+    ///////////////////////////////////////////////////////
+    async updateWithoutImage(req, res, next) {
+        try {
+            const user = req.body; // viene directamente como JSON
+            console.log(`Datos enviados del usuario sin imagen: ${JSON.stringify(user)}`);
+
+            await User.update(user);
+
+            return res.status(201).json({
+                success: true,
+                message: 'Los datos del usuario se actualizaron correctamente (sin imagen)',
+            });
+        } catch (error) {
+            console.log(`Error en updateWithoutImage: ${error}`);
+            return res.status(501).json({
+                success: false,
+                message: 'Hubo un error al actualizar el usuario sin imagen',
+                error: error
+            });
+        }
+    },
+
     /////////////////////////////////////////////////
     async registerWithImage(req, res, next){
         try {
@@ -164,6 +186,9 @@ module.exports = {
                     sesion_token: `JWT ${token}`,
                     roles: myUser.roles
                 }
+
+                await User.updateToken(myUser.id, `JWT ${token}`);
+
                 console.log(`USUARIO ENVIADO: ${data}`);
                 
                 return res.status(201).json({
