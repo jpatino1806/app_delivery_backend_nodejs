@@ -23,7 +23,9 @@ const upload = multer({
 
 /////// RUTAS ////////
 const users = require('./routes/usersRoutes');
-//const passport = require('./config/passport');
+const categories = require('./routes/categoriesRoutes');
+//const categoriesRoutes = require('./routes/categoriesRoutes');
+
 
 
 const port = process.env.PORT || 3000;
@@ -33,7 +35,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
 app.use(passport.initialize());
-//app.use(passport.session());
 require('./config/passport')(passport);
 
 app.disable('x-powered-by');
@@ -42,6 +43,7 @@ app.set('port', port);
 
 /////// LLAMANDO A LAS RUTAS  ////////////////
 users(app, upload);
+categories(app);
 
 
 server.listen(port, '192.168.100.16' , function() {
