@@ -2,6 +2,18 @@
 const db = require('../config/config');
 
 const Category = {};
+
+
+Category.getAll = () => {
+    const sql = `
+        SELECT id, name, description
+        FROM categories
+        ORDER BY name
+    `;
+    return db.manyOrNone(sql);
+}
+
+
 Category.create = (category) => {
     const sql = `
     INSERT INTO categories(
@@ -16,4 +28,4 @@ Category.create = (category) => {
     ]);
 }
 
-module.exports = Category;
+module.exports = Category
