@@ -4,8 +4,27 @@ const asyncForEach = require('../utils/async_foreach');
 
 module.exports = {
 
+    async findByCategory( req, res, next) {
+        try {
+            const id_category = req.params.id_category; //categoria seleccionada por el cliente
+            const data = await Product.findByCategory(id_category);
+            return res.status(201).json(data);
+
+        } 
+        catch (error) {
+            console.log(`Error: ${error}`);
+            return res.status(501).json({
+                message: `Error al listar los productos por categoria`,
+                success: false,
+                error: error
+            })
+        }
+    },
+    //////////////////////////////////////////////////
     async create(req, res, next){
         let product = JSON.parse(req.body.product);
+
+
         const files = req.files;
         let inserts = 0;
 

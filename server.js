@@ -43,7 +43,8 @@ app.set('port', port);
 
 /////// LLAMANDO A LAS RUTAS  ////////////////
 users(app, upload);
-categories(app);
+categories(app); 
+
 products(app, upload);
 
 
