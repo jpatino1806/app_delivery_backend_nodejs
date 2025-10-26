@@ -25,6 +25,7 @@ const upload = multer({
 const users = require('./routes/usersRoutes');
 const categories = require('./routes/categoriesRoutes');
 const products = require('./routes/productsRoutes');
+const address = require('./routes/addressRoutes');
 
 
 
@@ -44,7 +45,7 @@ app.set('port', port);
 /////// LLAMANDO A LAS RUTAS  ////////////////
 users(app, upload);
 categories(app); 
-
+address(app); 
 products(app, upload);
 
 
